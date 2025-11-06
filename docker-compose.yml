@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  # Serviço do Backend (NestJS)
+  backend:
+    build: ./backend  # Indica para construir a imagem a partir do Dockerfile na pasta 'backend'
+    container_name: ecommerce-backend
+    ports:
+      - "3000:3000"  # Mapeia a porta 3000 do contêiner para a porta 3000 da sua máquina
+    environment:
+      - DB_HOST=postgres         # MUITO IMPORTANTE: O host é o nome do serviço do banco de dados
+      - DB_PORT=5432
+      - DB_USERNAME=admin
+      - DB_PASSWORD=admin
+      - DB_DATABASE=ecommerce_db
+    depends_on:
+      - postgres  # Garante que o banco de dados inicie antes do backend
+
+  # Serviço do Banco de Dados (PostgreSQL)
+  postgres:
+    image: postgres:15-alpine  # Usa a imagem oficial do PostgreSQL
+    container_name: ecommerce-db
+    ports:
+      - "5432:5432"  # Mapeia a porta do banco para a sua máquina (para acesso com pgAdmin, etc.)
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=ecommerce_db
+    volumes:
+      - postgres-data:/var/lib/postgresql/data  # Garante que os dados do banco não sejam perdidos
+
+volumes:
+  postgres-data: # Define o volume para persistência dos dados

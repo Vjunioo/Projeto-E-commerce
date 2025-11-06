@@ -1,0 +1,11 @@
+// src/modules/products/dto/update-product.dto.ts
+
+import { PartialType } from '@nestjs/mapped-types';
+import { IsOptional, IsUUID } from 'class-validator';
+import { CreateProductDto } from './create-product.dto';
+
+export class UpdateProductDto extends PartialType(CreateProductDto) {
+  @IsUUID()
+  @IsOptional()
+  categoryId?: string;
+}

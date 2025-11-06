@@ -1,0 +1,9 @@
+# Pasta do Backend
+backend/node_modules
+backend/dist
+backend/.env
+
+# Arquivos globais do sistema/editor
+.vscode/
+.idea/
+.DS_Store
